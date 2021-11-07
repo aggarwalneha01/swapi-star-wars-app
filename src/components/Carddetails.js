@@ -13,7 +13,7 @@ const Carddetails = () => {
         setDetails(data); 
       }
       fetchDetails();
-    },[id, card])
+    },[])
     return (
         <div>
         <Item.Group >

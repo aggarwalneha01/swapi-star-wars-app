@@ -38,7 +38,7 @@ const Search = ({data, card}) => {
                                     <Card.Description>
                                         <strong>Model</strong>
                                         <p>{vehicle.model}</p>
-                                        <Link to={`/Carddetails?id=${getId(vehicle.url)}&card=vehicles`} >More details</Link>
+                                        <Link to={`/Carddetails?id=${getId(vehicle.url)}&card=${card}`} >More details</Link>
                                     </Card.Description>
                                 </Card.Content>
                             </Card>
