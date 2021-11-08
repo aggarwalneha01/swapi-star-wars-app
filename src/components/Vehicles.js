@@ -9,8 +9,7 @@ const Vehicles = () => {
           let data = await res.json();
           setVehicles(data.results);
         }
-    
-    
+  
         fetchVehicles(); 
       }, [])
     return (
