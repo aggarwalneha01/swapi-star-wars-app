@@ -6,7 +6,6 @@ import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
 const Search = ({data, card}) => {
-    localStorage.clear();
     const [results, setResults] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [favourites, setFavourites] = useState([]);
