@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Image, Card, Grid } from 'semantic-ui-react';
+import { Image, Card, Grid, Input, Label, Button, Segment, Rail } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import Slider from 'react-rangeslider';
@@ -76,25 +76,32 @@ const Search = ({data, card}) => {
     
       return(
     <div>
-        <Card>
-        <input
-        type="text"
-        placeholder="Search"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+         
+    <Grid centered columns={3}>
+       <Grid.Column>
+        <Segment>
+        <Label>Name, Model</Label>
+        <Input
+            type="text"
+            placeholder="Search Name Model"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
         />
-      <label>Cost In Credit (in thousands)</label>
-      <Slider
-          min={0}
-          max={300000}
-          step={1000}
-          value={priceValue}
-          format={formatSliderValue}
-          onChange={handleChange}
+         <Label>Cost In Credit (in thousands)</Label>
+        <Slider
+            min={0}
+            max={300000}
+            step={1000}
+            value={priceValue}
+            format={formatSliderValue}
+            onChange={handleChange}
         />
-      <button type="submit" onClick={handleSubmit}>Search</button>
-        </Card>
-        <Grid columns={3}>
+      <Button type="submit" onClick={handleSubmit}>Search</Button>
+       </Segment>
+      </Grid.Column>
+    </Grid>
+        
+        <Grid centered columns={3}>
                 {test.map((vehicle, i) => {
                     return(
                         <Grid.Column key={i}>
