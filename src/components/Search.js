@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { Image, Card, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
-// import Slider from 'react-input-range';
-// import 'react-rangeslider/lib/index.css';
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
 const Search = ({data, card}) => {
     localStorage.clear();
@@ -25,12 +25,18 @@ const Search = ({data, card}) => {
            setFavourites([...getArray])
        }
     }, []);
+    const [priceValue, setPriceValue] = useState(0);    
 
     async function handleSubmit(e){
         e.preventDefault();
         const res = await fetch(`https://swapi.dev/api/${card}/?search=${searchValue}`);
         const data = await res.json();
-        setResults([...data.results]);
+        if(priceValue > 0) {
+            const filteredResults = data.results.filter(n => n.cost_in_credits < priceValue);
+            setResults([...filteredResults]);
+        } else {
+            setResults([...data.results]);
+        }
     }
 
     function addfav(vehicle, i){
@@ -74,6 +80,15 @@ const Search = ({data, card}) => {
       function getId(url) {
         return url.split('/')[url.split('/').length - 2]
       }
+
+      function formatSliderValue(val) {
+          return val/1000;
+      }
+      
+      function handleChange(value) {
+          setPriceValue(value);
+      }
+    
       return(
     <div>
         <Card>
@@ -82,13 +97,16 @@ const Search = ({data, card}) => {
         placeholder="Search"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-      />
       <label><strong>Price</strong></label> 
-      {/* <Slider  maxValue={20}
-        minValue={0}
-        value={10}
-        onChange={()=>(alert('hi'))}
-      /> */}
+      <label>Cost In Credit (in thousands)</label>
+      <Slider
+          min={0}
+          max={300000}
+          step={1000}
+          value={priceValue}
+          format={formatSliderValue}
+          onChange={handleChange}
+        />
       <button type="submit" onClick={handleSubmit}>Search</button>
         </Card>
         <Grid columns={3}>
@@ -114,6 +132,8 @@ const Search = ({data, card}) => {
                                     <Card.Description>
                                         <strong>Model</strong>
                                         <p>{vehicle.model}</p>
+                                        <strong>Price</strong>
+                                        <p>{vehicle.cost_in_credits}</p>
                                         <Link to={`/Carddetails?id=${getId(vehicle.url)}&card=${card}`} >More details</Link>
                                     </Card.Description>
                                 </Card.Content>
