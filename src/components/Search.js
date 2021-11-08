@@ -10,11 +10,10 @@ const Search = ({data, card}) => {
     const [results, setResults] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [favourites, setFavourites] = useState([]);
-    // const titles = Object.keys(favList[0]);
-    // console.log("test", titles);
+    const [priceValue, setPriceValue] = useState(0); 
+    
     const getArray = JSON.parse(localStorage.getItem('favourites') || '0');
-    let favList;
-    console.log("array", localStorage.getItem(''));
+    let favList=[{}];
     for (let i=0; i< getArray.length; i++){
         let x = getArray[i];
         favList[i] = JSON.parse(localStorage.getItem('favItem' + [x]) || '');
@@ -25,7 +24,7 @@ const Search = ({data, card}) => {
            setFavourites([...getArray])
        }
     }, []);
-    const [priceValue, setPriceValue] = useState(0);    
+       
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -42,17 +41,8 @@ const Search = ({data, card}) => {
     function addfav(vehicle, i){
         let array = favourites;
         let addArray = true;
-        array.map((item, key ) => {
-            console.log("i", item);
-            console.log("j------->", key);
-        });
-
-        array.map((item, key ) => {
-            console.log("vehicle", vehicle);
-            console.log("key------->", key);
-
-            console.log("item------->", item);
-            if(item === vehicle){
+        array.map((index, key ) => {
+            if(index===i){
                 array.splice(key, 1);
                 addArray=false;
             }
@@ -62,17 +52,13 @@ const Search = ({data, card}) => {
         }
         setFavourites([...array]);
         localStorage.setItem("favourites", JSON.stringify(favourites));
-        console.log("dskfjdpdsfds", localStorage);
         let storage = localStorage.getItem('favItem' + (i) || '0')
         if(storage == null){
-            console.log(" in if");
             localStorage.setItem(('favItem' + (i)), JSON.stringify(vehicle))
         }
         else{
-            console.log(" in else");
             localStorage.removeItem('favItem' + (i));
         }
-        console.log("fav", localStorage);
     }
 
     const test = results && results.length>0 ? results : data;
@@ -97,7 +83,7 @@ const Search = ({data, card}) => {
         placeholder="Search"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-      <label><strong>Price</strong></label> 
+        />
       <label>Cost In Credit (in thousands)</label>
       <Slider
           min={0}
