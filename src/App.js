@@ -17,21 +17,21 @@ const App = () => {
       <Navbar />
         <Container>
              <Switch>
-             <Route exact path='/'>
-               <Home />
-             </Route>
-             <Route exact path='/vehicles'>
-               <Vehicles />
-             </Route>
-             <Route exact path='/starships'>
-               <Starships />
-             </Route>
-             <Route exact path='/carddetails'>
-               <Carddetails />
-             </Route>
-             <Route exact path='/search'>
-               <Search />
-             </Route>
+                <Route exact path='/'>
+                  <Home />
+                </Route>
+                <Route exact path='/vehicles'>
+                  <Vehicles />
+                </Route>
+                <Route exact path='/starships'>
+                  <Starships />
+                </Route>
+                <Route exact path='/carddetails'>
+                  <Carddetails />
+                </Route>
+                <Route exact path='/search'>
+                  <Search />
+                </Route>
            </Switch>
          
         </Container>

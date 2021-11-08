@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
+import SearchBar from './SearchBar'
 
 const Search = ({data, card}) => {
     const [results, setResults] = useState([]);
-    const [searchValue, setSearchValue] = useState("");
+    // const [searchValue, setSearchValue] = useState("");
     const [favourites, setFavourites] = useState([]);
-    const [priceValue, setPriceValue] = useState(0); 
+    // const [minPriceValue, setMinPriceValue] = useState(0); 
+    // const [maxPriceValue, setMaxPriceValue] = useState(0); 
     
     const getArray = JSON.parse(localStorage.getItem('favourites') || '0');
     let favList=[{}];
@@ -25,12 +27,14 @@ const Search = ({data, card}) => {
     }, []);
        
 
-    async function handleSubmit(e){
-        e.preventDefault();
+    async function handleSubmit(minPriceValue, maxPriceValue, searchValue){
         const res = await fetch(`https://swapi.dev/api/${card}/?search=${searchValue}`);
         const data = await res.json();
-        if(priceValue > 0) {
-            const filteredResults = data.results.filter(n => n.cost_in_credits < priceValue);
+        if(minPriceValue>maxPriceValue){
+            alert("Min value should not be greater than Max value");
+        }
+        if(minPriceValue > 0) {
+            const filteredResults = data.results.filter(n => (n.cost_in_credits > minPriceValue && n.cost_in_credits < maxPriceValue));
             setResults([...filteredResults]);
         } else {
             setResults([...data.results]);
@@ -63,41 +67,17 @@ const Search = ({data, card}) => {
     const test = results && results.length>0 ? results : data;
    
       function getId(url) {
+       console.log(url);
         return url.split('/')[url.split('/').length - 2]
       }
-
-      function formatSliderValue(val) {
-          return val/1000;
-      }
       
-      function handleChange(value) {
-          setPriceValue(value);
-      }
     
       return(
     <div>
          
     <Grid centered columns={3}>
        <Grid.Column>
-        <Segment>
-        <Label>Name, Model</Label>
-        <Input
-            type="text"
-            placeholder="Search Name Model"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-        />
-         <Label>Cost In Credit (in thousands)</Label>
-        <Slider
-            min={0}
-            max={300000}
-            step={1000}
-            value={priceValue}
-            format={formatSliderValue}
-            onChange={handleChange}
-        />
-      <Button type="submit" onClick={handleSubmit}>Search</Button>
-       </Segment>
+        <SearchBar handleSubmit={handleSubmit}/>
       </Grid.Column>
     </Grid>
         
