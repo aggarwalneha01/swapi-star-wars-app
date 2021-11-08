@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Image, Card, Grid, Input, Label, Button, Segment, Rail } from 'semantic-ui-react';
+import { Image, Card, Grid, Input, Label, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import Slider from 'react-rangeslider';
